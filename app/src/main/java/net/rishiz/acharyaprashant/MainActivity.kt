@@ -14,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
 import net.rishiz.acharyaprashant.navigation.NavGraph
 import net.rishiz.acharyaprashant.ui.theme.AcharyaPrashantTheme
+import net.rishiz.acharyaprashant.view.MainScreen
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
@@ -27,6 +29,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     NavGraph()
+
                 }
             }
         }
@@ -36,7 +39,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun GreetingPreview() {
         AcharyaPrashantTheme {
-            // MainScreen()
+
         }
     }
 }

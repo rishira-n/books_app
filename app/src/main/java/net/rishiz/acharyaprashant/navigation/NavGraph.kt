@@ -22,9 +22,9 @@ fun NavGraph() {
     val navController = rememberNavController()
     val actions= remember(navController){MainActions(navController)}
     val context= LocalContext.current
-    NavHost(navController = navController, startDestination = "splash_screen") {
+    NavHost(navController = navController, startDestination = Screen.MainScreen.route) {
         composable(Screen.SplashScreen.route) {
-            SplashScreen(navController)
+            SplashScreen(navController,actions)
         }
         composable(Screen.MainScreen.route) {
             val viewModel:MainViewModel=viewModel(
@@ -42,7 +42,11 @@ class MainActions(navController: NavController) {
     val backpress:() -> Unit={
         navController.navigateUp()
     }
+    val launchScreen:()->Unit={
+
+    }
 }
+
 
 
 

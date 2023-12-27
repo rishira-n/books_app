@@ -3,4 +3,7 @@
     <string name="splash_screen">Splash Screen</string>
     <string name="main_screen">Main Screen</string>
     <string name="description_sceen">Description Screen</string>
+    <string name="text_back_button">Back Button</string>
+    <string name="browse_books">Browse Boooks</string>
+    <string name="text_search">Search for books..</string>
 </resources>

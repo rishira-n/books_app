@@ -25,10 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import net.rishiz.acharyaprashant.R
+import net.rishiz.acharyaprashant.navigation.MainActions
 
 @Composable
-fun SplashScreen(navController: NavController) {
-
+fun SplashScreen(navController: NavController, actions: MainActions) {
+//Background Layout
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +44,7 @@ fun SplashScreen(navController: NavController) {
                 .background(Color.Transparent)
         )
     }
-
+//Logo Layout
     Box(
         modifier = Modifier.offset(x = 250.dp, y = 50.dp)
     ) {
@@ -62,6 +63,7 @@ fun SplashScreen(navController: NavController) {
             )
         }
     }
+    //
     val scale = remember {
         Animatable(0f)
     }
@@ -69,7 +71,7 @@ fun SplashScreen(navController: NavController) {
         scale.animateTo(targetValue = 0.3f, animationSpec = tween(durationMillis = 500, easing = {
             OvershootInterpolator(2f).getInterpolation(it)
         }))
-        delay(3000L)
+        delay(2000L)
         navController.navigate("main_screen") {
             popUpTo("splash_screen") { inclusive = true }
         }

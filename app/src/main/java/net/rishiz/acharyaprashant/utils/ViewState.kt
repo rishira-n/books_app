@@ -8,5 +8,4 @@ sealed class ViewState {
     data class Error(val exception: Throwable):ViewState()
     data object Empty:ViewState()
     data object Loading:ViewState()
-
 }

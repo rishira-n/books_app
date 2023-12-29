@@ -6,7 +6,7 @@ Android app built with `Jetpack Compose` shows books information fetched from Ac
 
 | Screen | Preview |
 | :----- | :------:|
-|  **Spash Screen** _(Default destination)_<br><br> • Spash screen will displat first when opening the app.<br> •Displaying logo. | <img src="assets/splash_screen_gif.gif" alt="splash screen preview" width="180" /> |
+|  **Spash Screen** _(Default destination)_<br><br> • Spash screen will display first when opening the app.<br> •Displaying logo. | <img src="assets/splash_screen_gif.gif" alt="splash screen preview" width="180" /> |
 |        |
 |  **Main Screen**<br><br> • Shows list of books in vertical grid layout.<<br> • Custom TopAppBar container with search icon.<br> • Navigates to expandable Search bar clicking search icon.<br> • Navigates to Book screen with bookId clicking any book item.<br> • Shimmering effect will be shown untill data is fetched.<br> • Image fetching with Coil. | <img src="assets/main_screen_gif.gif" alt="main screen preview" width="180" /> |
 |        |                                                                              |
@@ -21,7 +21,7 @@ Before running this application, ensure that you have:
 
 ## Installation / Run the Application:
 ### 1.	Clone the repository:
-•  Download and extract the zip file of the project [ Source code Zip ](src="assets/splash_screen_gif.gif").
+•  Download and extract the zip file of the project.
 <br> 	Alternatively,
 <br> • 	Open a terminal or command prompt.
 <br> •	Run the following command:

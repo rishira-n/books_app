@@ -7,23 +7,26 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.stringResource
 import net.rishiz.acharyaprashant.R
 
+/**
+ * Topbar SearchBar
+ */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBar( searchText: String,
-                 onSearchTextChange: (String) -> Unit,
-                 onSearchBackClick: () -> Unit,
-                onClearClick:() -> Unit,
-    ) {
-    TopAppBar(
-    title = {
-        OutlineTextInputField(label = stringResource(id = R.string.text_search),
-            value = searchText ,
-            onValueChanged =
-            {
-                onSearchTextChange(it)
-            },
-            onClearClicked = {  onClearClick()},
-            onSearchBackClick=onSearchBackClick)
+fun SearchBar(
+    searchText: String,
+    onSearchTextChange: (String) -> Unit,
+    onSearchBackClick: () -> Unit,
+    onClearClick: () -> Unit,
+) {
+    TopAppBar(title = {
+            CustomOutlineTextField(
+                label = stringResource(id = R.string.text_search),
+                value = searchText,
+                onValueChanged = {
+                    onSearchTextChange(it)
+                },
+                onClearClicked = { onClearClick() },
+                onSearchBackClick = onSearchBackClick
+            )
     })
-
 }

@@ -1,4 +1,4 @@
-package net.rishiz.acharyaprashant
+package net.rishiz.acharyaprashant.view
 
 import android.os.Build
 import android.os.Bundle
@@ -8,19 +8,25 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import net.rishiz.acharyaprashant.NetworkConnectivityObserver
 import dagger.hilt.android.AndroidEntryPoint
 import net.rishiz.acharyaprashant.navigation.NavGraph
 import net.rishiz.acharyaprashant.ui.theme.AcharyaPrashantTheme
-import net.rishiz.acharyaprashant.view.MainScreen
+import net.rishiz.acharyaprashant.utils.ConnectivityObserver
 
+/**
+ * This the only activity of the app
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private lateinit var connectivityObserver: ConnectivityObserver
+
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        connectivityObserver = NetworkConnectivityObserver(applicationContext)
         setContent {
             AcharyaPrashantTheme {
                 // A surface container using the 'background' color from the theme
@@ -28,18 +34,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavGraph()
-
+                    //Calling navgraph with connectivityObserver as argument that will observe paragraph
+                    NavGraph(connectivityObserver as NetworkConnectivityObserver)
                 }
             }
-        }
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        AcharyaPrashantTheme {
-
         }
     }
 }

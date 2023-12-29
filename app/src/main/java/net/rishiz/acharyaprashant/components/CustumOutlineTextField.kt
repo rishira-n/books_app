@@ -3,11 +3,12 @@ package net.rishiz.acharyaprashant.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -34,17 +35,23 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import net.rishiz.acharyaprashant.R
 
-
+/**
+ * Customised OutlineTextField
+ */
 @ExperimentalComposeUiApi
 @Composable
-fun OutlineTextInputField(
+fun CustomOutlineTextField(
     label: String, value: String, onValueChanged: (String) -> Unit,
     onClearClicked: () -> Unit,
     onSearchBackClick: () -> Unit,){
+
     val keyboardController = LocalSoftwareKeyboardController.current
     var showClearBtn by remember {
        mutableStateOf(false)
@@ -52,25 +59,31 @@ fun OutlineTextInputField(
     val focusRequester= remember {
         FocusRequester()
     }
+
     LaunchedEffect(Unit ){
          focusRequester.requestFocus()
     }
+
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
+            .wrapContentHeight()
             .padding(start = 15.dp, end = 15.dp)
             .shadow(5.dp, CircleShape)
             .onFocusChanged {
                 showClearBtn = (it.isFocused)
-            }.focusRequester(focusRequester),
+            }
+            .focusRequester(focusRequester)
+            .border(BorderStroke(0.1.dp,
+                SolidColor(Color.Yellow))),
         shape = CircleShape,
         value = value,
         onValueChange = {
             onValueChanged(it)
         },
-//        label = { LabelView(title = label) },
+       label = { LabelView(title = label) },
         textStyle = MaterialTheme.typography.bodyLarge,
-        colors = outLinedTextFieldColors(),
+        //colors = outLinedTextFieldColors(),
         keyboardOptions = KeyboardOptions(imeAction = androidx.compose.ui.text.input.ImeAction.Search),
         keyboardActions = KeyboardActions(
             onDone = {
@@ -82,7 +95,6 @@ fun OutlineTextInputField(
                 Icon(
                    imageVector = Icons.Default.ArrowBack,
                     contentDescription = null,
-//                    tint = Cranberry,
                     modifier = Modifier.size(22.dp)
                 )
                 
@@ -98,8 +110,15 @@ fun OutlineTextInputField(
                     Icon(
                         imageVector = Icons.Default.Clear,
                         contentDescription = null,
-//                        tint = Cranberry,
+                        //tint = Color.Yellow,
                         modifier = Modifier.size(22.dp)
+                    )
+                }else{
+                    Icon(
+                        painter= painterResource(id = R.drawable.baseline_mic_24),
+                        contentDescription = null,
+                        modifier = Modifier.size(22.dp),
+                        //tint = Color.Yellow,
                     )
                 }
             }

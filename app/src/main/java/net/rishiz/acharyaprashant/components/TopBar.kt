@@ -9,23 +9,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.navigation.NavController
 import net.rishiz.acharyaprashant.R
-import net.rishiz.acharyaprashant.navigation.MainActions
 
-
+/**
+ * TopBar
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-    title: String, actions: MainActions, onSearchIconClick: () -> Unit
+    title: String,
+    navController: NavController,
+    onSearchIconClick: () -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior,
 ) {
 
-    val scrolllBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     TopAppBar(
 //                colors = TopAppBarDefaults.topAppBarColors(
 //                containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -36,11 +39,13 @@ fun TopBar(
                 title, maxLines = 1, overflow = TextOverflow.Ellipsis
             )
         }, navigationIcon = {
-            IconButton(onClick = { actions.backpress }) {
+            IconButton(onClick = { navController.navigateUp() }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = stringResource(id = R.string.text_back_button),
-                    modifier = Modifier.clickable(onClick = actions.backpress)
+                    modifier = Modifier.clickable(onClick = {
+                        navController.navigateUp()
+                    })
                 )
             }
         }, actions = {
@@ -51,7 +56,7 @@ fun TopBar(
                     )
                 )
             }
-        }, scrollBehavior = scrolllBehavior
+        }, scrollBehavior = scrollBehavior
     )
 
 }

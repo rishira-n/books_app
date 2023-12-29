@@ -25,10 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import net.rishiz.acharyaprashant.R
-import net.rishiz.acharyaprashant.navigation.MainActions
+import net.rishiz.acharyaprashant.navigation.Screen
 
+/**
+ * SplashSceen UI
+ */
 @Composable
-fun SplashScreen(navController: NavController, actions: MainActions) {
+fun SplashScreen(navController: NavController) {
 //Background Layout
     Box(
         modifier = Modifier
@@ -63,17 +66,18 @@ fun SplashScreen(navController: NavController, actions: MainActions) {
             )
         }
     }
-    //
+
     val scale = remember {
         Animatable(0f)
     }
     LaunchedEffect(key1 = true) {
-        scale.animateTo(targetValue = 0.3f, animationSpec = tween(durationMillis = 500, easing = {
-            OvershootInterpolator(2f).getInterpolation(it)
-        }))
+//        Animating splash screen
+//        scale.animateTo(targetValue = 0.3f, animationSpec = tween(durationMillis = 500, easing = {
+//            OvershootInterpolator(2f).getInterpolation(it)
+//        }))
         delay(2000L)
-        navController.navigate("main_screen") {
-            popUpTo("splash_screen") { inclusive = true }
+        navController.navigate(Screen.MainScreen.route) {
+            popUpTo(Screen.SplashScreen.route) { inclusive = true }
         }
     }
 }

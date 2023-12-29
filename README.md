@@ -14,6 +14,16 @@ Android app built with `Jetpack Compose` shows books information fetched from Ac
 |        |                                                                                  |
 | **Book Screen**<br><br> • Shows user selected book from other screens.<br> • CircularProgressIndicator will be shown untill data is fetched.<br> • Image fetching with Coil, manages state error/placeholder. | <img src="assets/book_screen_gif.gif" alt="Detail screen preview" width="180" /> |
 
+## 🛠 Build With
+- #Kotlin: First class for Android development.
+- #Coroutines: Asynchronous programming library for simplifying background operations.
+- #Flow: Reactive stream library for asynchronous and data-driven programming.
+- #Retrofit/OkHttp3: Networking libraries for making HTTP requests.
+- #Dagger #Hilt: Dependency injection library for Android.
+- #Navigation Component: Android Jetpack's library for navigating between screens.
+- #ViewModel-ktx: Part of the Android Architecture Components for managing UI-related data.
+- #Coil: Image loading library for Android apps.
+  
 ## Prerequisites
 Before running this application, ensure that you have:
 <br> •	Android Studio: Download and install Android Studio(Recommended to download latest one).
@@ -23,7 +33,7 @@ Before running this application, ensure that you have:
 ### 1.	Clone the repository:
 •  Download and extract the zip file of the project.
 <br> 	Alternatively,
-<br> • 	Open a terminal or command prompt.
+<br> • 	Open a git bash terminal or command prompt if not have then install git.
 <br> •	Run the following command:
 ```kotlin
 git clone https://github.com/rishiroid/acharya_prashant/

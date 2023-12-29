@@ -17,70 +17,93 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.rishiz.acharyaprashant.RetrofitInstance
 import net.rishiz.acharyaprashant.model.Book
+import net.rishiz.acharyaprashant.utils.BookState
 import net.rishiz.acharyaprashant.utils.ViewState
 
-class MainViewModel: ViewModel() {
-   private val bookList:MutableStateFlow<List<Book>> =MutableStateFlow(emptyList())
-   private val _filteredBooks:MutableStateFlow<List<Book>> =MutableStateFlow(emptyList())
-
+/**
+ * This is ViewModel class of the app
+ */
+class MainViewModel : ViewModel() {
+    private val bookList: MutableStateFlow<List<Book>> = MutableStateFlow(emptyList())
+    private val _bookState = MutableStateFlow<BookState>(BookState.Loading)
     private val _viewState = MutableStateFlow<ViewState>(ViewState.Loading)
-    val books = _viewState.asStateFlow()
-
     private val _searchText = MutableStateFlow("")
-    val searchText = _searchText.asStateFlow()
     private val _isSearching = MutableStateFlow(false)
-    val isSearching = _isSearching.asStateFlow()
 
-   //filtering books onEach search
-    val searchResult = searchText
-        .debounce(1000L)
-        .onEach { _isSearching.update { true } }
+
+    val books = _viewState.asStateFlow()
+    val searchText = _searchText.asStateFlow()
+    val isSearching = _isSearching.asStateFlow()
+    val bookState = _bookState.asStateFlow()
+
+
+    //filtering books onEach search
+    val searchResult = searchText.debounce(1000L).onEach { _isSearching.update { true } }
         .combine(bookList) { text, books ->
-            if(text.isBlank()) {
+            if (text.isBlank()) {
                 books
             } else {
                 delay(2000L)
                 books.filter {
-                    doesMatchSearchQuery(book=it,query=text)
+                    doesMatchSearchQuery(book = it, query = text)
                 }
             }
-        }
-        .onEach { _isSearching.update { false } }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            bookList.value
+        }.onEach { _isSearching.update { false } }.stateIn(
+            viewModelScope, SharingStarted.WhileSubscribed(5000), bookList.value
         )
 
-    fun getBookData()=viewModelScope.launch(Dispatchers.IO){
+    /**
+     *   Api call to get book data
+     */
+    fun getBookData() = viewModelScope.launch(Dispatchers.IO) {
         try {
-            val responce = RetrofitInstance.retrofit.getBooks().execute()
-            if (responce.isSuccessful) {
-                bookList.value= responce.body()!!
-                _viewState.value = ViewState.Success(bookList.value)
 
+            val responce = RetrofitInstance.retrofit.getBooks().execute()
+            delay(2000L)
+            if (responce.isSuccessful) {
+                bookList.value = responce.body()!!
+                _viewState.value = ViewState.Success(bookList.value)
             }
-        }catch (e:Exception){
-          _viewState.value=ViewState.Error(exception =e)
+
+        } catch (e: Exception) {
+            _viewState.value = ViewState.Error(exception = e)
         }
     }
 
-    private fun doesMatchSearchQuery(book: Book, query:String): Boolean {
-        return book.id.contains(query.trim(), ignoreCase =true )
+    /**
+     * Api call to get book by id
+     */
+    fun getBookByID(id: String) = viewModelScope.launch(Dispatchers.IO) {
+        try {
+
+            val response = RetrofitInstance.retrofit.getBooks().execute()
+            if (response.isSuccessful) {
+                val book = response.body()!!.first { it.id.contentEquals(id) }
+                _bookState.value = BookState.Success(book)
+            }
+        } catch (e: Exception) {
+            _bookState.value = BookState.Error(e)
+        }
     }
-    fun onSearchTextChange(text:String){
-        _searchText.value=text
+
+    /**
+     * Return the boolean value if search text match
+     */
+    private fun doesMatchSearchQuery(book: Book, query: String): Boolean {
+        return book.id.contains(query.trim(), ignoreCase = true)
     }
-fun onClearClick() {
-    _searchText.value = ""
 
-}
+    /**
+     * Set the text on search text change
+     */
+    fun onSearchTextChange(text: String) {
+        _searchText.value = text
+    }
 
-
-
-
-
-
-
-
+    /**
+     * Clear the text of text field
+     */
+    fun onClearClick() {
+        _searchText.value = ""
+    }
 }

@@ -69,23 +69,30 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
     // compose navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
+
     // Retrofit for handling API requests
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+
     // Gson converter for JSON serialization/deserialization
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
     //Logging HTTTP request and response
     implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
+
     //viewmodel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
     // For coroutines support
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    //For fetch images
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
     // KotlinX Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
     // Coil Image Loading
     implementation("io.coil-kt:coil-compose:2.5.0")
 
@@ -96,4 +103,7 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:${rootProject.extra["hiltComposeVersion"]}")
     implementation("androidx.hilt:hilt-common:${rootProject.extra["hiltCompilerVersion"]}")
     kapt("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
+
+   //Swipe refresh
+    implementation ("com.google.accompanist:accompanist-swiperefresh:0.27.0")
 }

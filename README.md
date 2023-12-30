@@ -48,7 +48,7 @@ git clone https://github.com/rishiroid/acharya_prashant/
  • Connect your Android device or use an emulator.
 <br> • In Android Studio, select the target device.
 <br> • Click on the Run button (green triangle) in the toolbar, or press Shift + F10.
-<br> • If Dont know how to connect device [visit here](https://developer.android.com/studio/run/device) which contains proper the steps how to connect device by wife or via usb.
+<br> • If Dont know how to connect device [visit here](https://developer.android.com/studio/run/device) which contains proper steps to connect device by Wi-Fi or via USB.
 
 ### 4.Interact with the Application:
 •	Once the app is installed on the device/emulator, explore the functionality.

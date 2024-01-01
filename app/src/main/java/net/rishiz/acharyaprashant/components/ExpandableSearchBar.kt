@@ -3,6 +3,10 @@ package net.rishiz.acharyaprashant.components
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -18,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import net.rishiz.acharyaprashant.R
+import net.rishiz.acharyaprashant.navigation.Screen
 import net.rishiz.acharyaprashant.view.BookData
 import net.rishiz.acharyaprashant.viewmodel.MainViewModel
 
@@ -44,7 +49,16 @@ fun ExpandableSearchBar(
         }
     } else {
         Log.d("match", searchResult.toString())
-        BookData(searchResult, navController)
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2)
+        ) {
+            items(searchResult) { book ->
+                BookCard(book
+                ) { navController.navigate("${Screen.BookScreen.route}/${book.id}")
+                }
+
+            }
+        }
     }
 
     //Logic of expandable searchbar
@@ -53,7 +67,6 @@ fun ExpandableSearchBar(
             searchText = searchText,
             onSearchTextChange = viewModel::onSearchTextChange,
             onSearchBackClick = {
-                viewModel::onClearClick
                 isSearchExpanded = false
             },
             onClearClick = viewModel::onClearClick

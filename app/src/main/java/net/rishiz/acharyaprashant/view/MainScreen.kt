@@ -3,9 +3,9 @@ package net.rishiz.acharyaprashant.view
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -20,7 +20,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -53,17 +51,16 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
-    var isRefreshing by remember{
+    var isRefreshing by remember {
         mutableStateOf(false)
     }
 
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
     ) {
-        LaunchedEffect(isRefreshing){
+        LaunchedEffect(isRefreshing) {
             delay(2000L)
-            isRefreshing=false
+            isRefreshing = false
         }
 
         //Align the component in structured way
@@ -71,31 +68,37 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
                 ExpandableSearchBar(
-                    navController = navController, viewModel = viewModel,
+                    navController = navController,
+                    viewModel = viewModel,
                     scrollBehavior = scrollBehavior
                 )
             },
         ) {
 
-            Column(Modifier.padding(it)) {
+            Column {
 
                 //Refreshing
-                SwipeRefresh(state = rememberSwipeRefreshState(isRefreshing = isRefreshing), onRefresh = {
-                viewModel.getBookData()
-                    isRefreshing=true}
-                ) {
+                SwipeRefresh(
+                    state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
+                    onRefresh = {
+                        viewModel.getBookData()
+                        isRefreshing = true
+                    }) {
                     //Observing book data state
                     when (val result = viewModel.books.value) {
                         is ViewState.Success -> {
-                        //    isRefreshing=false
-                            BookData(result.data, navController)
+                            //    isRefreshing=false
+                            BookData(result.data, navController, it)
                         }
 
                         ViewState.Loading -> {
-                            LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                            LazyVerticalGrid(
+                                modifier = Modifier.padding(it),
+                                columns = GridCells.Fixed(2)
+                            ) {
                                 items(10) {
-                                    ShimmerVerticalGridView(modifier = Modifier
-                                        .padding(2.dp)
+                                    ShimmerVerticalGridView(
+                                        modifier = Modifier
                                     )
                                 }
                             }
@@ -105,13 +108,14 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
-                            ){ Text("No result found!")}
+                            ) { Text("No result found!") }
                         }
-                        is ViewState.Error ->{
+
+                        is ViewState.Error -> {
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center,
-                            ){ Text("Error occur: ${result.exception}")}
+                            ) { Text("Error occur: ${result.exception}") }
                         }
                     }
                 }
@@ -124,15 +128,16 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
  * Vertical grid layout to show all the books
  */
 @Composable
-fun BookData(data: List<Book>, navController: NavController) {
+fun BookData(data: List<Book>, navController: NavController, paddingValues: PaddingValues) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2)
+        modifier = Modifier.padding(paddingValues = paddingValues), columns = GridCells.Fixed(2)
     ) {
         items(data) { book ->
-            BookCard(book
-            ) { navController.navigate("${Screen.BookScreen.route}/${book.id}")
+            BookCard(
+                book
+            ) {
+                navController.navigate("${Screen.BookScreen.route}/${book.id}")
             }
-
         }
     }
 }

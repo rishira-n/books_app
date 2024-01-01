@@ -1,5 +1,6 @@
 package net.rishiz.acharyaprashant.view
 
+import android.app.Activity
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -32,6 +34,8 @@ import net.rishiz.acharyaprashant.navigation.Screen
  */
 @Composable
 fun SplashScreen(navController: NavController) {
+    val context= LocalContext.current
+
 //Background Layout
     Box(
         modifier = Modifier
@@ -76,8 +80,6 @@ fun SplashScreen(navController: NavController) {
 //            OvershootInterpolator(2f).getInterpolation(it)
 //        }))
         delay(2000L)
-        navController.navigate(Screen.MainScreen.route) {
-            popUpTo(Screen.SplashScreen.route) { inclusive = true }
-        }
+        navController.navigate(Screen.MainScreen.route)
     }
 }

@@ -1,5 +1,6 @@
 package net.rishiz.acharyaprashant.components
 
+import android.app.Activity
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -12,6 +13,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
@@ -28,7 +30,7 @@ fun TopBar(
     onSearchIconClick: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
 ) {
-
+val context= LocalContext.current
     TopAppBar(
 //                colors = TopAppBarDefaults.topAppBarColors(
 //                containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -44,7 +46,13 @@ fun TopBar(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = stringResource(id = R.string.text_back_button),
                     modifier = Modifier.clickable(onClick = {
-                        navController.navigateUp()
+                        navController.popBackStack()
+
+                        //Finish activity when there is no screen in stack
+                        if(navController.popBackStack().not()){
+                            (context as? Activity)?.finish()
+                        }
+
                     })
                 )
             }

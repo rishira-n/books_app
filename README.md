@@ -1,5 +1,6 @@
-# Acharya Prashant Book App 📚:
+# आचार्य प्रशान्त Book App 📚:
 Android app built with `Jetpack Compose` shows books information fetched from Acharya Prashant app Api.
+<img src="assets/thumbnail.gif" alt="splash screen preview"/>
 
 ## 😎 App Overview
 
